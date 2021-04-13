@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,7 @@
     <link rel="dns-prefetch" href="https://ss0.bdstatic.com">
     <link rel="dns-prefetch" href="https://timgsa.baidu.com">
     <link rel="dns-prefetch" href="https://ss2.bdstatic.com">
-   <!--引入工具库-->
+    <!--引入工具库-->
     <style>
         body {
             margin: 0;
@@ -16,9 +17,36 @@
     </style>
     <title>Dereck's Backyard Sales!</title>
 </head>
+
 <body>
-<div id="main"></div>
-<!--<script src="/libs/lodash.js"></script>-->
-<!--<script src="/libs/fastdom.min.js"></script>-->
+    <div id="main"></div>
+    <!--<script src="/libs/lodash.js"></script>-->
+    <!--<script src="/libs/fastdom.min.js"></script>-->
+    <script>
+        /* 页面抖动事件示例-鼠标移动改变图片大小 */
+        // tips 使用requestAnimationFrame和简易防抖进行优化
+        (function () {
+            const cards = document.getElementsByClassName('jss10');
+            function changeWidth(rand) {
+                for (let i = 0; i < cards.length; i++) {
+                    cards[i].style.width = (Math.random(rand / 1000) + 1) * 500 + 'px'
+                }
+            };
+            let ticking = false; // 执行开关
+            // 利用chrome DevTools打开时可以复现抖动问题(pointer events)
+            window.addEventListener('pointermove', e => {
+                console.log('pointermove');
+                if (ticking) return;
+                ticking = true;
+                // rAF
+                window.requestAnimationFrame(() => {
+                    console.log('requestAnimationFrame');
+                    changeWidth(e.clientX);
+                    ticking = false;
+                });
+            });
+        })();
+    </script>
 </body>
+
 </html>
