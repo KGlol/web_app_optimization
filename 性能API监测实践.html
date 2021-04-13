@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>性能监测API实践</title>
+</head>
+<body>
+  <div>性能监测API实践</div>
+  <script>
+    /* 计算可交互时间Time to Interactive 单位毫秒ms */
+    window.addEventListener('load', function() {
+      /* 获取时间节点对象 */
+      const timing = performance.getEntriesByType(['navigation'])[0]
+      /* 公式domInterActive - fetchStart */
+      const tti = timing.domInteractive - timing.fetchStart
+      console.log('TTI=', tti);
+    })
+
+    longTaskForTest(3000)
+
+    /* 长任务 */
+    function longTaskForTest(duration) {
+      const start = new Date().getTime()
+      while (new Date().getTime() < start + duration) {
+        // do sth
+      }
+    }
+
+    /*长任务监测 */
+    const observer = new PerformanceObserver(
+      function(list) { for(const entry of list.getEntries()) { console.log(entry); } }
+    )
+    observer.observe({entryTypes: ['longtask']})
+
+
+    /* 页面可见性监控 */
+    let vEvent = document.webkitHidden !== undefined ? 'webkitvisibilitychange' : 'visibilitychange'
+    document.addEventListener(vEvent, visibilityChanged, false)
+    function visibilityChanged() {
+      if (document.hidden || document.webkitHidden ) {
+        console.log('page has been hidden');
+      } else {
+        console.log('page now is visible');
+      }
+    }
+
+
+    /* 判断当前网络状态 */
+    // 连接状态
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+    // 连接类型
+    const type = connection.effectiveType
+    // 连接状态变化处理函数
+    function updateConnectionStatus() {
+      console.log(`connection status changed from ${type} to ${connection.effectiveType}`);
+    }
+    // 添加连接状态监听
+    connection.addEventListener('change', updateConnectionStatus)
+  </script>
+</body>
+</html>
