@@ -27,7 +27,7 @@ module.exports = smp.wrap({
     context: __dirname,
     entry: {
         app: './src/index.jsx',
-        // test: './src/test.js' // 测试函数lazy parsing, eager parsing
+        test: './src/test.js' // 测试函数lazy parsing, eager parsing
     },
     output: {
         path: `${__dirname}/build`,

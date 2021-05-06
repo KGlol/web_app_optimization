@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Header from './Header.jsx';
 import Home from './Home.jsx';
 import loadable from '@loadable/component';
-
+import test from "./test";
 const primary = '#30929b';
 
 const theme = createMuiTheme({
@@ -29,7 +29,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         // this.calculatePi(1500); // 测试密集计算对性能的影响
-        // test(); // 测试函数lazy parsing, eager parsing
+        test(); // 测试函数lazy parsing, eager parsing
     }
 
     calculatePi(duration) {
